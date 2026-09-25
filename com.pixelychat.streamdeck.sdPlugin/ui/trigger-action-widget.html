@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>Trigger Action Widget Settings</title>
+    <meta charset="utf-8" />
+    <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+    <style>
+        /* Same box as sdpi-item's label (flex-centered, min-height 28px) so both sit on one line. */
+        #connection { display: flex; align-items: center; min-height: 28px; }
+        #connection.connected { color: #8B5CF6; }
+        #connection.warning { color: #E8A23D; }
+        #hint { opacity: 0.75; line-height: 1.4; }
+        #hint.warning { color: #E8A23D; opacity: 1; }
+    </style>
+</head>
+
+<body>
+    <sdpi-item label="PixelyChat">
+        <span id="connection">Connecting…</span>
+    </sdpi-item>
+
+    <sdpi-item label="Action Widget">
+        <sdpi-select setting="widgetId" datasource="getWidgets" hot-reload loading="Loading…" placeholder="Select a widget…"></sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item>
+        <span id="hint"></span>
+    </sdpi-item>
+
+    <script>
+        // The plugin sends { event: "status" } right after each widget list update.
+        const connection = document.getElementById("connection");
+        const hint = document.getElementById("hint");
+
+        function show(label, labelClass, text, textClass) {
+            connection.textContent = label;
+            connection.className = labelClass;
+            hint.textContent = text;
+            hint.className = textClass;
+        }
+
+        SDPIComponents.streamDeckClient.sendToPropertyInspector.subscribe(({ payload }) => {
+            if (!payload || payload.event !== "status") return;
+            if (payload.connection === "needsUpdate") {
+                show("Update needed", "warning", "PixelyChat is newer than this plugin. Update the PixelyChat plugin in the Stream Deck app.", "warning");
+            } else if (payload.connection !== "connected") {
+                show("○ Not running", "", "Open PixelyChat to choose a widget. Your selection is kept while it is closed.", "");
+            } else if (payload.missing) {
+                show("● Connected", "connected", "⚠ The selected Action Widget no longer exists. Choose another one.", "warning");
+            } else if (payload.empty) {
+                show("● Connected", "connected", "No Action Widgets found. Create one in PixelyChat under Scene → Widgets, then come back here.", "");
+            } else {
+                show("● Connected", "connected", "Press the key to start the widget, and again to stop it. It uses the current settings from PixelyChat.", "");
+            }
+        });
+    </script>
+</body>
+
+</html>

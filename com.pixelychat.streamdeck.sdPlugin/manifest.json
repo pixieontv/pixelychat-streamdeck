@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+	"Name": "PixelyChat",
+	"Version": "0.1.0.0",
+	"Author": "PixelyChat",
+	"Actions": [
+		{
+			"Name": "Trigger Action Widget",
+			"UUID": "com.pixelychat.streamdeck.trigger-action-widget",
+			"Icon": "imgs/actions/trigger-action-widget/icon",
+			"Tooltip": "Starts or stops one of your PixelyChat Action Widgets.",
+			"PropertyInspectorPath": "ui/trigger-action-widget.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/trigger-action-widget/key",
+					"TitleAlignment": "bottom",
+					"FontSize": 11
+				}
+			]
+		}
+	],
+	"Category": "PixelyChat",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "Trigger your PixelyChat Action Widgets from Stream Deck keys.",
+	"Icon": "imgs/plugin/marketplace",
+	"URL": "https://pixelychat.com",
+	"SDKVersion": 3,
+	"Software": {
+		"MinimumVersion": "7.1"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "24",
+		"Debug": "enabled"
+	},
+	"UUID": "com.pixelychat.streamdeck"
+}

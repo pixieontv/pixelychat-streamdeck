@@ -1,0 +1,9 @@
+# Node.js
+node_modules/
+
+# Stream Deck files
+*.sdPlugin/bin
+*.sdPlugin/logs
+# Packaged plugin
+dist/
+scripts/fake-stream-deck-keys.html
