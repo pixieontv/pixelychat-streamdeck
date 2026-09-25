@@ -19,6 +19,10 @@ The app only adds fields. A trigger is never retried or sent after a reconnect.
 
 ## Development
 
+Enable Stream Deck's developer mode once (`npx streamdeck dev`). Without it,
+`streamdeck restart` (and so `npm run watch`) reports success but keeps the old
+plugin process running.
+
 ```bash
 npm install
 npm run build        # bundle to com.pixelychat.streamdeck.sdPlugin/bin

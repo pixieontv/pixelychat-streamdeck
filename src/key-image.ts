@@ -1,6 +1,8 @@
 // Key artwork: the same Lucide icon per widget type as PixelyChat's own
-// ActionWidgetIcon (lucide 0.383.0, ISC — see THIRD_PARTY_NOTICES.txt), on the
-// app's dark background, in PixelyChat's colors.
+// ActionWidgetIcon (lucide 0.383.0, ISC — see THIRD_PARTY_NOTICES.txt), in the
+// PixelyChat logo's colors. A running timer replaces the icon with its time.
+
+import type { StreamDeckTimer } from "./protocol";
 
 export type KeyStatus = "idle" | "active" | "disabled" | "missing" | "offline";
 
@@ -23,18 +25,21 @@ const ICONS: Record<string, string> = {
 	"starting-soon": TIMER,
 };
 
+// Background and accent gradient from the PixelyChat logo; the rest from the app theme.
 const COLORS = {
-	bg: "#14161B",
+	bgTop: "#140A2E",
+	bgBottom: "#0A051C",
+	brandPink: "#EA66F3",
+	brandViolet: "#773CF6",
 	text: "#ECEEF3",
 	faint: "#565B66",
-	connected: "#8B5CF6",
 	warning: "#E8A23D",
 	offline: "#454A55",
 };
 
 const ICON_COLOR: Record<KeyStatus, string> = {
 	idle: COLORS.text,
-	active: COLORS.connected,
+	active: COLORS.brandPink,
 	disabled: COLORS.faint,
 	missing: COLORS.faint,
 	offline: COLORS.faint,
@@ -45,14 +50,35 @@ const DOT_COLOR: Partial<Record<KeyStatus, string>> = {
 	offline: COLORS.offline,
 };
 
-export function keyImage(type: string | undefined, status: KeyStatus): string {
+/** "0:27", "12:05" or "1:02:03"; undefined when there is no timer to show. */
+export function timerText(timer: StreamDeckTimer | undefined, now: number): string | undefined {
+	if (!timer) return undefined;
+	const ms = "endsAt" in timer
+		? Math.max(0, timer.endsAt - now)
+		: timer.elapsedMs + (timer.runningSince ? Math.max(0, now - timer.runningSince) : 0);
+	// Counting down rounds up so the key reaches 0:00 exactly when the countdown ends.
+	const total = "endsAt" in timer ? Math.ceil(ms / 1000) : Math.floor(ms / 1000);
+	const h = Math.floor(total / 3600);
+	const m = Math.floor((total % 3600) / 60);
+	const s = String(total % 60).padStart(2, "0");
+	return h ? `${h}:${String(m).padStart(2, "0")}:${s}` : `${m}:${s}`;
+}
+
+export function keyImage(type: string | undefined, status: KeyStatus, timer?: string): string {
 	const icon = (type && ICONS[type]) || SPARKLES;
 	const dot = DOT_COLOR[status];
+	const fontSize = !timer ? 0 : timer.length <= 4 ? 50 : timer.length <= 5 ? 44 : 32;
 	const svg = [
 		'<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144">',
-		`<rect width="144" height="144" fill="${COLORS.bg}"/>`,
-		status === "active" ? `<rect x="5" y="5" width="134" height="134" rx="18" fill="none" stroke="${COLORS.connected}" stroke-width="6"/>` : "",
-		`<g transform="translate(44 20) scale(2.3333)" fill="none" stroke="${ICON_COLOR[status]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icon}</g>`,
+		"<defs>",
+		`<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${COLORS.bgTop}"/><stop offset="1" stop-color="${COLORS.bgBottom}"/></linearGradient>`,
+		`<linearGradient id="brand" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${COLORS.brandPink}"/><stop offset="1" stop-color="${COLORS.brandViolet}"/></linearGradient>`,
+		"</defs>",
+		'<rect width="144" height="144" fill="url(#bg)"/>',
+		status === "active" ? '<rect x="5" y="5" width="134" height="134" rx="18" fill="none" stroke="url(#brand)" stroke-width="6"/>' : "",
+		timer
+			? `<text x="72" y="${48 + fontSize / 2.8}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="${fontSize}" fill="${COLORS.text}">${timer}</text>`
+			: `<g transform="translate(44 20) scale(2.3333)" fill="none" stroke="${ICON_COLOR[status]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icon}</g>`,
 		dot ? `<circle cx="120" cy="24" r="9" fill="${dot}"/>` : "",
 		"</svg>",
 	].join("");

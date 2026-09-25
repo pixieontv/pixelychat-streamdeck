@@ -4,6 +4,17 @@ node_modules/
 # Stream Deck files
 *.sdPlugin/bin
 *.sdPlugin/logs
+
 # Packaged plugin
 dist/
+
+# Fake Stream Deck test output
 scripts/fake-stream-deck-keys.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

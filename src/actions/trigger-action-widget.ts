@@ -6,9 +6,10 @@ import streamDeck, {
 	type SendToPluginEvent,
 	SingletonAction,
 	type WillAppearEvent,
+	type WillDisappearEvent,
 } from "@elgato/streamdeck";
 
-import { keyImage, type KeyStatus } from "../key-image";
+import { keyImage, timerText, type KeyStatus } from "../key-image";
 import { pixelyChat } from "../pixelychat-connection";
 
 /**
@@ -24,13 +25,26 @@ type Settings = {
 
 @action({ UUID: "com.pixelychat.streamdeck.trigger-action-widget" })
 export class TriggerActionWidget extends SingletonAction<Settings> {
+	/** What each key last showed, so unchanged image/title are not resent (the timer tick redraws often). */
+	private readonly drawn = new Map<string, { image: string; title: string }>();
+	private ticker: NodeJS.Timeout | undefined;
+
 	constructor() {
 		super();
-		pixelyChat.onChange(() => void this.refreshAll());
+		pixelyChat.onChange(() => {
+			this.updateTicker();
+			void this.refreshAll();
+		});
 	}
 
 	override async onWillAppear(ev: WillAppearEvent<Settings>): Promise<void> {
+		// Stream Deck shows the default image again when a key reappears.
+		this.drawn.delete(ev.action.id);
 		if (ev.action.isKey()) await this.render(ev.action, ev.payload.settings);
+	}
+
+	override onWillDisappear(ev: WillDisappearEvent<Settings>): void {
+		this.drawn.delete(ev.action.id);
 	}
 
 	override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<Settings>): Promise<void> {
@@ -57,10 +71,24 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 		if (ev.payload?.event === "getWidgets") await this.updatePropertyInspector(await ev.action.getSettings());
 	}
 
-	private async refreshAll(): Promise<void> {
+	/** Redraws running timers locally while any widget has one; PixelyChat only sends start/stop. */
+	private updateTicker(): void {
+		const running = pixelyChat.widgets.some((widget) => widget.timer && ("endsAt" in widget.timer || widget.timer.runningSince));
+		if (running && !this.ticker) this.ticker = setInterval(() => void this.refreshKeys(), 250);
+		if (!running && this.ticker) {
+			clearInterval(this.ticker);
+			this.ticker = undefined;
+		}
+	}
+
+	private async refreshKeys(): Promise<void> {
 		for (const keyAction of this.actions) {
 			if (keyAction.isKey()) await this.render(keyAction, await keyAction.getSettings());
 		}
+	}
+
+	private async refreshAll(): Promise<void> {
+		await this.refreshKeys();
 		const visible = streamDeck.ui.action;
 		if (visible) await this.updatePropertyInspector((await visible.getSettings()) as Settings);
 	}
@@ -78,8 +106,13 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 		else if (!widget.enabled) status = "disabled";
 		else status = widget.active ? "active" : "idle";
 
-		await key.setImage(keyImage(widget?.type ?? settings.cachedType, status));
-		await key.setTitle(widget?.name ?? settings.cachedName ?? "");
+		const timer = status === "active" ? timerText(widget?.timer, Date.now()) : undefined;
+		const image = keyImage(widget?.type ?? settings.cachedType, status, timer);
+		const title = widget?.name ?? settings.cachedName ?? "";
+		const last = this.drawn.get(key.id);
+		this.drawn.set(key.id, { image, title });
+		if (last?.image !== image) await key.setImage(image);
+		if (last?.title !== title) await key.setTitle(title);
 	}
 
 	/** Feeds the settings panel's dropdown (sdpi datasource "getWidgets") and its status line. */

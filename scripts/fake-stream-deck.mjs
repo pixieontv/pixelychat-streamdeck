@@ -24,7 +24,8 @@ let failures = 0;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const check = (ok, label) => { console.log(`${ok ? "PASS" : "FAIL"}  ${label}`); if (!ok) failures++; };
 const svg = (ctx) => Buffer.from(String(renders[ctx]?.image ?? "").split(",")[1] ?? "", "base64").toString();
-const isActive = (ctx) => svg(ctx).includes('stroke="#8B5CF6" stroke-width="6"');
+const isActive = (ctx) => svg(ctx).includes('stroke="url(#brand)" stroke-width="6"');
+const shownTime = (ctx) => svg(ctx).match(/>(\d+(?::\d\d)+)<\/text>/)?.[1];
 const hasDot = (ctx, color) => svg(ctx).includes(`<circle cx="120" cy="24" r="9" fill="${color}"/>`);
 
 // 1. Read the widget list from PixelyChat, like the plugin will.
@@ -96,7 +97,13 @@ try {
 	// 4. Press keys.
 	keyEvent("keyDown", "runnable");
 	await wait(1200);
-	check(renders.runnable.alerts === 0 && isActive("runnable"), "press starts the widget (purple ring)");
+	check(renders.runnable.alerts === 0 && isActive("runnable"), "press starts the widget (brand ring)");
+	if (runnable.type === "countdown") {
+		const first = shownTime("runnable");
+		await wait(1300);
+		const second = shownTime("runnable");
+		check(!!first && !!second && first !== second, `countdown time ticks on the key (${first} → ${second})`);
+	}
 	keyEvent("keyDown", "runnable");
 	await wait(1200);
 	check(renders.runnable.alerts === 0 && !isActive("runnable"), "second press stops it");

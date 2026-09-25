@@ -13,12 +13,20 @@ export const STATE_EVENT = "streamdeck-state";
 /** Plugin → app, with ack: start the widget's primary action, or stop it while running. */
 export const TOGGLE_EVENT = "streamdeck:toggle";
 
+/**
+ * A running timer as fixed timestamps (same clock: both run on this machine).
+ * `{ endsAt }` counts down; `{ elapsedMs, runningSince? }` counts up and is
+ * paused when `runningSince` is missing.
+ */
+export type StreamDeckTimer = { endsAt: number } | { elapsedMs: number; runningSince?: number };
+
 export interface StreamDeckWidget {
 	id: string;
 	name: string;
 	type: string;
 	enabled: boolean;
 	active: boolean;
+	timer?: StreamDeckTimer;
 }
 
 export interface StreamDeckState {
