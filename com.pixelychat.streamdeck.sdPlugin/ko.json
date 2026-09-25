@@ -1,0 +1,11 @@
+{
+	"Name": "PixelyChat",
+	"Description": "Stream Deck 키로 PixelyChat 액션 위젯을 실행하세요.",
+	"com.pixelychat.streamdeck.trigger-action-widget": {
+		"Name": "액션 위젯 실행",
+		"Tooltip": "PixelyChat 액션 위젯을 시작하거나 중지합니다."
+	},
+	"Localization": {
+		"off": "꺼짐"
+	}
+}

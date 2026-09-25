@@ -1,0 +1,11 @@
+{
+	"Name": "PixelyChat",
+	"Description": "用 Stream Deck 按键触发 PixelyChat 操作小组件。",
+	"com.pixelychat.streamdeck.trigger-action-widget": {
+		"Name": "触发操作小组件",
+		"Tooltip": "启动或停止你的某个 PixelyChat 操作小组件。"
+	},
+	"Localization": {
+		"off": "已关闭"
+	}
+}

@@ -24,6 +24,7 @@ export interface StreamDeckWidget {
 	id: string;
 	name: string;
 	type: string;
+	/** Offered in PixelyChat's Dashboard Action Widgets, so it can be triggered now. */
 	enabled: boolean;
 	active: boolean;
 	timer?: StreamDeckTimer;

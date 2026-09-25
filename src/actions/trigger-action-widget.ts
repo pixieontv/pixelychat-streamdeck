@@ -5,6 +5,7 @@ import streamDeck, {
 	type KeyDownEvent,
 	type SendToPluginEvent,
 	SingletonAction,
+	type TitleParametersDidChangeEvent,
 	type WillAppearEvent,
 	type WillDisappearEvent,
 } from "@elgato/streamdeck";
@@ -25,8 +26,16 @@ type Settings = {
 
 @action({ UUID: "com.pixelychat.streamdeck.trigger-action-widget" })
 export class TriggerActionWidget extends SingletonAction<Settings> {
-	/** What each key last showed, so unchanged image/title are not resent (the timer tick redraws often). */
-	private readonly drawn = new Map<string, { image: string; title: string }>();
+	/** What each key last showed, so an unchanged image is not resent (the timer tick redraws often). */
+	private readonly drawn = new Map<string, string>();
+	/**
+	 * The Title field as typed in Stream Deck. Stream Deck's own title cannot
+	 * shrink to fit, so the manifest hides it by default (ShowTitle: false) and
+	 * the key draws the text itself instead: the typed title, else the widget
+	 * name. The plugin never sets a title. If the user turns "Show Title" back
+	 * on, Stream Deck draws it and the key leaves its own text out.
+	 */
+	private readonly titles = new Map<string, { title: string; shownByStreamDeck: boolean }>();
 	private ticker: NodeJS.Timeout | undefined;
 
 	constructor() {
@@ -45,6 +54,12 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 
 	override onWillDisappear(ev: WillDisappearEvent<Settings>): void {
 		this.drawn.delete(ev.action.id);
+	}
+
+	override async onTitleParametersDidChange(ev: TitleParametersDidChangeEvent<Settings>): Promise<void> {
+		streamDeck.logger.debug(`titleParametersDidChange ${ev.action.id}: ${JSON.stringify(ev.payload.title)} showTitle=${ev.payload.titleParameters.showTitle}`);
+		this.titles.set(ev.action.id, { title: ev.payload.title, shownByStreamDeck: ev.payload.titleParameters.showTitle });
+		if (ev.action.isKey()) await this.render(ev.action, ev.payload.settings);
 	}
 
 	override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<Settings>): Promise<void> {
@@ -107,25 +122,26 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 		else status = widget.active ? "active" : "idle";
 
 		const timer = status === "active" ? timerText(widget?.timer, Date.now()) : undefined;
-		const image = keyImage(widget?.type ?? settings.cachedType, status, timer);
-		const title = widget?.name ?? settings.cachedName ?? "";
-		const last = this.drawn.get(key.id);
-		this.drawn.set(key.id, { image, title });
-		if (last?.image !== image) await key.setImage(image);
-		if (last?.title !== title) await key.setTitle(title);
+		const title = this.titles.get(key.id);
+		const name = title?.shownByStreamDeck ? undefined : title?.title.trim() || widget?.name || settings.cachedName;
+		const image = keyImage(widget?.type ?? settings.cachedType, status, { timer, name });
+		if (this.drawn.get(key.id) === image) return;
+		this.drawn.set(key.id, image);
+		await key.setImage(image);
 	}
 
 	/** Feeds the settings panel's dropdown (sdpi datasource "getWidgets") and its status line. */
 	private async updatePropertyInspector(settings: Settings): Promise<void> {
-		const widgets = pixelyChat.widgets;
+		// Same list as PixelyChat's Dashboard; the key's own widget stays listed while it is off.
+		const widgets = pixelyChat.widgets.filter((widget) => widget.enabled || widget.id === settings.widgetId);
 		await streamDeck.ui.sendToPropertyInspector({
 			event: "getWidgets",
-			items: widgets.map((widget) => ({ label: widget.name, value: widget.id })),
+			items: widgets.map((widget) => ({ label: widget.enabled ? widget.name : `${widget.name} (${streamDeck.i18n.translate("off")})`, value: widget.id })),
 		});
 		await streamDeck.ui.sendToPropertyInspector({
 			event: "status",
 			connection: pixelyChat.ready ? "connected" : pixelyChat.needsUpdate ? "needsUpdate" : "notRunning",
-			empty: pixelyChat.ready && widgets.length === 0,
+			empty: pixelyChat.ready && !widgets.some((widget) => widget.enabled),
 			missing: pixelyChat.ready && !!settings.widgetId && !pixelyChat.find(settings.widgetId),
 		});
 	}

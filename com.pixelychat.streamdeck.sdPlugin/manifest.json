@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
 	"Name": "PixelyChat",
-	"Version": "0.1.0.0",
+	"Version": "1.0.0.0",
 	"Author": "PixelyChat",
 	"Actions": [
 		{
@@ -16,6 +16,7 @@
 			"States": [
 				{
 					"Image": "imgs/actions/trigger-action-widget/key",
+					"ShowTitle": false,
 					"TitleAlignment": "bottom",
 					"FontSize": 11
 				}
@@ -43,8 +44,7 @@
 		}
 	],
 	"Nodejs": {
-		"Version": "24",
-		"Debug": "enabled"
+		"Version": "24"
 	},
 	"UUID": "com.pixelychat.streamdeck"
 }

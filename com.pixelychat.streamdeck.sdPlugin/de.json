@@ -1,0 +1,11 @@
+{
+	"Name": "PixelyChat",
+	"Description": "Löse deine PixelyChat Action Widgets mit Stream-Deck-Tasten aus.",
+	"com.pixelychat.streamdeck.trigger-action-widget": {
+		"Name": "Action Widget auslösen",
+		"Tooltip": "Startet oder stoppt eines deiner PixelyChat Action Widgets."
+	},
+	"Localization": {
+		"off": "aus"
+	}
+}

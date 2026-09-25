@@ -37,4 +37,9 @@ node scripts/fake-stream-deck.mjs   # test without hardware (PixelyChat must be 
 plugin, places keys, presses them (this really starts/stops a widget in
 PixelyChat) and checks titles, images, alerts and the settings panel data.
 
-Plugin logs: `com.pixelychat.streamdeck.sdPlugin/logs/`.
+Plugin logs: `com.pixelychat.streamdeck.sdPlugin/logs/`. If the plugin dies before it
+logs anything, check Stream Deck's own log (`~/Library/Logs/ElgatoStreamDeck/StreamDeck.log`).
+
+Leave `Nodejs.Debug` out of the manifest for releases (no debugger by default).
+`"Debug": "disabled"` passes `streamdeck validate` but makes Node exit on launch.
+Use `"Debug": "enabled"` only locally when attaching a debugger.

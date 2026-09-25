@@ -1,0 +1,11 @@
+{
+	"Name": "PixelyChat",
+	"Description": "Déclenchez vos widgets d’action PixelyChat avec les touches du Stream Deck.",
+	"com.pixelychat.streamdeck.trigger-action-widget": {
+		"Name": "Déclencher un widget d’action",
+		"Tooltip": "Démarre ou arrête l’un de vos widgets d’action PixelyChat."
+	},
+	"Localization": {
+		"off": "désactivé"
+	}
+}

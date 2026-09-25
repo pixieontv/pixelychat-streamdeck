@@ -1,0 +1,11 @@
+{
+	"Name": "PixelyChat",
+	"Description": "Stream DeckのキーからPixelyChatのアクションウィジェットを実行します。",
+	"com.pixelychat.streamdeck.trigger-action-widget": {
+		"Name": "アクションウィジェットを実行",
+		"Tooltip": "PixelyChatのアクションウィジェットを開始または停止します。"
+	},
+	"Localization": {
+		"off": "オフ"
+	}
+}

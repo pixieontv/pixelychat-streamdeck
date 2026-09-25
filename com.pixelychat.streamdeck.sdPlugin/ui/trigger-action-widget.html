@@ -4,7 +4,10 @@
 <head lang="en">
     <title>Trigger Action Widget Settings</title>
     <meta charset="utf-8" />
-    <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+    <!-- sdpi-components v4.0.1, bundled so the panel also works offline. -->
+    <script src="sdpi-components.js"></script>
+    <!-- Strings per Stream Deck language; must load before the elements below render. -->
+    <script src="locales.js"></script>
     <style>
         /* Same box as sdpi-item's label (flex-centered, min-height 28px) so both sit on one line. */
         #connection { display: flex; align-items: center; min-height: 28px; }
@@ -17,11 +20,11 @@
 
 <body>
     <sdpi-item label="PixelyChat">
-        <span id="connection">Connecting…</span>
+        <span id="connection"></span>
     </sdpi-item>
 
-    <sdpi-item label="Action Widget">
-        <sdpi-select setting="widgetId" datasource="getWidgets" hot-reload loading="Loading…" placeholder="Select a widget…"></sdpi-select>
+    <sdpi-item label="__MSG_actionWidget__">
+        <sdpi-select setting="widgetId" datasource="getWidgets" hot-reload placeholder="__MSG_selectWidget__"></sdpi-select>
     </sdpi-item>
 
     <sdpi-item>
@@ -29,30 +32,28 @@
     </sdpi-item>
 
     <script>
-        // The plugin sends { event: "status" } right after each widget list update.
+        const t = (key) => SDPIComponents.i18n.getMessage(key);
         const connection = document.getElementById("connection");
         const hint = document.getElementById("hint");
+        connection.textContent = t("connecting");
+        // `loading` is not translated by sdpi-components itself.
+        document.querySelector("sdpi-select").setAttribute("loading", t("loading"));
 
         function show(label, labelClass, text, textClass) {
-            connection.textContent = label;
+            connection.textContent = t(label);
             connection.className = labelClass;
-            hint.textContent = text;
+            hint.textContent = t(text);
             hint.className = textClass;
         }
 
+        // The plugin sends { event: "status" } right after each widget list update.
         SDPIComponents.streamDeckClient.sendToPropertyInspector.subscribe(({ payload }) => {
             if (!payload || payload.event !== "status") return;
-            if (payload.connection === "needsUpdate") {
-                show("Update needed", "warning", "PixelyChat is newer than this plugin. Update the PixelyChat plugin in the Stream Deck app.", "warning");
-            } else if (payload.connection !== "connected") {
-                show("○ Not running", "", "Open PixelyChat to choose a widget. Your selection is kept while it is closed.", "");
-            } else if (payload.missing) {
-                show("● Connected", "connected", "⚠ The selected Action Widget no longer exists. Choose another one.", "warning");
-            } else if (payload.empty) {
-                show("● Connected", "connected", "No Action Widgets found. Create one in PixelyChat under Scene → Widgets, then come back here.", "");
-            } else {
-                show("● Connected", "connected", "Press the key to start the widget, and again to stop it. It uses the current settings from PixelyChat.", "");
-            }
+            if (payload.connection === "needsUpdate") show("updateNeeded", "warning", "hintUpdate", "warning");
+            else if (payload.connection !== "connected") show("notRunning", "", "hintNotRunning", "");
+            else if (payload.missing) show("connected", "connected", "hintMissing", "warning");
+            else if (payload.empty) show("connected", "connected", "hintEmpty", "");
+            else show("connected", "connected", "hintReady", "");
         });
     </script>
 </body>

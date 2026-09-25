@@ -1,0 +1,11 @@
+{
+	"Name": "PixelyChat",
+	"Description": "Trigger your PixelyChat Action Widgets from Stream Deck keys.",
+	"com.pixelychat.streamdeck.trigger-action-widget": {
+		"Name": "Trigger Action Widget",
+		"Tooltip": "Starts or stops one of your PixelyChat Action Widgets."
+	},
+	"Localization": {
+		"off": "off"
+	}
+}
