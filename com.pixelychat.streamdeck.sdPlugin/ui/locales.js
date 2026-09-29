@@ -13,7 +13,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "Open PixelyChat to choose a widget. Your selection is kept while it is closed.",
 		"hintMissing": "⚠ The selected Action Widget no longer exists. Choose another one.",
 		"hintEmpty": "No Action Widgets available. Create or turn one on in PixelyChat under Scene → Widgets, then come back here.",
-		"hintReady": "Press the key to start the widget, and again to stop it. It uses the current settings from PixelyChat."
+		"hintReady": "Press the key to start the widget, and again to stop it. It uses the current settings from PixelyChat.",
+		"turnedOff": "○ Turned off",
+		"hintTurnedOff": "Stream Deck is turned off in PixelyChat. Turn it on under Setup → Integrations → Stream Deck."
 	},
 	"de": {
 		"actionWidget": "Action Widget",
@@ -27,7 +29,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "Öffne PixelyChat, um ein Widget auszuwählen. Deine Auswahl bleibt erhalten, solange es geschlossen ist.",
 		"hintMissing": "⚠ Das ausgewählte Action Widget existiert nicht mehr. Wähle ein anderes aus.",
 		"hintEmpty": "Keine Action Widgets verfügbar. Erstelle oder aktiviere eines in PixelyChat unter Szene → Widgets und komm dann hierher zurück.",
-		"hintReady": "Drücke die Taste, um das Widget zu starten, und erneut, um es zu stoppen. Es nutzt die aktuellen Einstellungen aus PixelyChat."
+		"hintReady": "Drücke die Taste, um das Widget zu starten, und erneut, um es zu stoppen. Es nutzt die aktuellen Einstellungen aus PixelyChat.",
+		"turnedOff": "○ Ausgeschaltet",
+		"hintTurnedOff": "Stream Deck ist in PixelyChat ausgeschaltet. Schalte es unter Einrichtung → Integrationen → Stream Deck ein."
 	},
 	"es": {
 		"actionWidget": "Widget de acción",
@@ -41,7 +45,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "Abre PixelyChat para elegir un widget. Tu selección se conserva mientras está cerrado.",
 		"hintMissing": "⚠ El widget de acción seleccionado ya no existe. Elige otro.",
 		"hintEmpty": "No hay widgets de acción disponibles. Crea o activa uno en PixelyChat en Escena → Widgets y vuelve aquí.",
-		"hintReady": "Pulsa la tecla para iniciar el widget y otra vez para detenerlo. Usa la configuración actual de PixelyChat."
+		"hintReady": "Pulsa la tecla para iniciar el widget y otra vez para detenerlo. Usa la configuración actual de PixelyChat.",
+		"turnedOff": "○ Desactivado",
+		"hintTurnedOff": "Stream Deck está desactivado en PixelyChat. Actívalo en Configuración → Integraciones → Stream Deck."
 	},
 	"fr": {
 		"actionWidget": "Widget d’action",
@@ -55,7 +61,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "Ouvrez PixelyChat pour choisir un widget. Votre sélection est conservée tant qu’il est fermé.",
 		"hintMissing": "⚠ Le widget d’action sélectionné n’existe plus. Choisissez-en un autre.",
 		"hintEmpty": "Aucun widget d’action disponible. Créez-en ou activez-en un dans PixelyChat sous Scène → Widgets, puis revenez ici.",
-		"hintReady": "Appuyez sur la touche pour lancer le widget, puis de nouveau pour l’arrêter. Il utilise les réglages actuels de PixelyChat."
+		"hintReady": "Appuyez sur la touche pour lancer le widget, puis de nouveau pour l’arrêter. Il utilise les réglages actuels de PixelyChat.",
+		"turnedOff": "○ Désactivé",
+		"hintTurnedOff": "Stream Deck est désactivé dans PixelyChat. Activez-le dans Configuration → Intégrations → Stream Deck."
 	},
 	"ja": {
 		"actionWidget": "アクションウィジェット",
@@ -69,7 +77,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "ウィジェットを選ぶにはPixelyChatを開いてください。閉じている間も選択は保持されます。",
 		"hintMissing": "⚠ 選択したアクションウィジェットは存在しません。別のウィジェットを選んでください。",
 		"hintEmpty": "使用できるアクションウィジェットがありません。PixelyChatのシーン → ウィジェットで作成またはオンにしてから、ここに戻ってください。",
-		"hintReady": "キーを押すとウィジェットが開始し、もう一度押すと停止します。PixelyChatの現在の設定が使われます。"
+		"hintReady": "キーを押すとウィジェットが開始し、もう一度押すと停止します。PixelyChatの現在の設定が使われます。",
+		"turnedOff": "○ オフ",
+		"hintTurnedOff": "PixelyChatでStream Deckがオフになっています。セットアップ → 連携 → Stream Deck でオンにしてください。"
 	},
 	"ko": {
 		"actionWidget": "액션 위젯",
@@ -83,7 +93,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "위젯을 선택하려면 PixelyChat을 여세요. 닫혀 있는 동안에도 선택은 유지됩니다.",
 		"hintMissing": "⚠ 선택한 액션 위젯이 더 이상 없습니다. 다른 위젯을 선택하세요.",
 		"hintEmpty": "사용할 수 있는 액션 위젯이 없습니다. PixelyChat의 씬 → 위젯에서 만들거나 켠 다음 여기로 돌아오세요.",
-		"hintReady": "키를 누르면 위젯이 시작되고, 다시 누르면 멈춥니다. PixelyChat의 현재 설정을 사용합니다."
+		"hintReady": "키를 누르면 위젯이 시작되고, 다시 누르면 멈춥니다. PixelyChat의 현재 설정을 사용합니다.",
+		"turnedOff": "○ 꺼짐",
+		"hintTurnedOff": "PixelyChat에서 Stream Deck이 꺼져 있습니다. 설정 → 연동 → Stream Deck에서 켜세요."
 	},
 	"zh_CN": {
 		"actionWidget": "操作小组件",
@@ -97,7 +109,9 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "打开 PixelyChat 以选择小组件。关闭期间会保留你的选择。",
 		"hintMissing": "⚠ 所选操作小组件已不存在。请选择其他小组件。",
 		"hintEmpty": "没有可用的操作小组件。请在 PixelyChat 的 场景 → 组件 中创建或开启一个，然后回到这里。",
-		"hintReady": "按下按键启动小组件，再按一次停止。它使用 PixelyChat 中的当前设置。"
+		"hintReady": "按下按键启动小组件，再按一次停止。它使用 PixelyChat 中的当前设置。",
+		"turnedOff": "○ 已关闭",
+		"hintTurnedOff": "PixelyChat 中的 Stream Deck 已关闭。请在 设置 → 集成 → Stream Deck 中开启。"
 	},
 	"zh_TW": {
 		"actionWidget": "操作小工具",
@@ -111,6 +125,8 @@ SDPIComponents.i18n.locales = {
 		"hintNotRunning": "開啟 PixelyChat 以選擇小工具。關閉期間會保留你的選擇。",
 		"hintMissing": "⚠ 所選操作小工具已不存在。請選擇其他小工具。",
 		"hintEmpty": "沒有可用的操作小工具。請在 PixelyChat 的 場景 → 小工具 中建立或開啟一個，然後回到這裡。",
-		"hintReady": "按下按鍵即可啟動小工具，再按一次即可停止。它會使用 PixelyChat 中的目前設定。"
+		"hintReady": "按下按鍵即可啟動小工具，再按一次即可停止。它會使用 PixelyChat 中的目前設定。",
+		"turnedOff": "○ 已關閉",
+		"hintTurnedOff": "PixelyChat 中的 Stream Deck 已關閉。請在 設定 → 整合 → Stream Deck 中開啟。"
 	}
 };

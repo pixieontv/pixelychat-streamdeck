@@ -140,7 +140,7 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 		});
 		await streamDeck.ui.sendToPropertyInspector({
 			event: "status",
-			connection: pixelyChat.ready ? "connected" : pixelyChat.needsUpdate ? "needsUpdate" : "notRunning",
+			connection: pixelyChat.ready ? "connected" : pixelyChat.needsUpdate ? "needsUpdate" : pixelyChat.isTurnedOff ? "turnedOff" : "notRunning",
 			empty: pixelyChat.ready && !widgets.some((widget) => widget.enabled),
 			missing: pixelyChat.ready && !!settings.widgetId && !pixelyChat.find(settings.widgetId),
 		});

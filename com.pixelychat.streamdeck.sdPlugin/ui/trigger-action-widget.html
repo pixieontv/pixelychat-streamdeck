@@ -50,6 +50,7 @@
         SDPIComponents.streamDeckClient.sendToPropertyInspector.subscribe(({ payload }) => {
             if (!payload || payload.event !== "status") return;
             if (payload.connection === "needsUpdate") show("updateNeeded", "warning", "hintUpdate", "warning");
+            else if (payload.connection === "turnedOff") show("turnedOff", "warning", "hintTurnedOff", "");
             else if (payload.connection !== "connected") show("notRunning", "", "hintNotRunning", "");
             else if (payload.missing) show("connected", "connected", "hintMissing", "warning");
             else if (payload.empty) show("connected", "connected", "hintEmpty", "");

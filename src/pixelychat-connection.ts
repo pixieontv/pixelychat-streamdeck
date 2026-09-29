@@ -3,6 +3,7 @@ import { io, type Socket } from "socket.io-client";
 
 import {
 	CLIENT_QUERY,
+	DISABLED_ERROR,
 	PIXELYCHAT_URL,
 	STATE_EVENT,
 	SUPPORTED_PROTOCOL_VERSION,
@@ -13,6 +14,9 @@ import {
 } from "./protocol";
 
 const TOGGLE_TIMEOUT_MS = 3000;
+// Socket.IO does not retry after the server refuses or drops a connection, so
+// check again on our own while Stream Deck is switched off in PixelyChat.
+const TURNED_OFF_RETRY_MS = 15000;
 const logger = streamDeck.logger.createScope("PixelyChat");
 
 /**
@@ -23,6 +27,8 @@ const logger = streamDeck.logger.createScope("PixelyChat");
 class PixelyChatConnection {
 	private socket: Socket | undefined;
 	private state: StreamDeckState | undefined;
+	private turnedOff = false;
+	private retryTimer: NodeJS.Timeout | undefined;
 	private readonly listeners = new Set<() => void>();
 
 	start(): void {
@@ -36,18 +42,41 @@ class PixelyChatConnection {
 		this.socket.on(STATE_EVENT, (state: StreamDeckState) => {
 			if (!this.state) logger.info(`Connected (protocol ${state.protocolVersion}, ${state.widgets.length} widgets)`);
 			this.state = state;
+			this.turnedOff = false;
 			this.notify();
+		});
+		this.socket.on("connect_error", (err) => {
+			if (err.message !== DISABLED_ERROR) return; // PixelyChat not running: Socket.IO keeps retrying itself.
+			if (!this.turnedOff) logger.info("Stream Deck is turned off in PixelyChat");
+			this.turnedOff = true;
+			this.notify();
+			this.retryLater(TURNED_OFF_RETRY_MS);
 		});
 		this.socket.on("disconnect", (reason) => {
 			logger.info(`Disconnected: ${reason}`);
 			this.state = undefined;
 			this.notify();
+			// PixelyChat dropped us, e.g. Stream Deck was just switched off there.
+			if (reason === "io server disconnect") this.retryLater(2000);
 		});
+	}
+
+	private retryLater(delay: number): void {
+		if (this.retryTimer) return;
+		this.retryTimer = setTimeout(() => {
+			this.retryTimer = undefined;
+			this.socket?.connect();
+		}, delay);
 	}
 
 	/** Connected and holding a widget list this plugin understands. */
 	get ready(): boolean {
 		return !!this.socket?.connected && !!this.state && !this.needsUpdate;
+	}
+
+	/** Stream Deck is switched off in PixelyChat's Setup → Integrations. */
+	get isTurnedOff(): boolean {
+		return this.turnedOff;
 	}
 
 	/** PixelyChat speaks a newer protocol than this plugin supports. */

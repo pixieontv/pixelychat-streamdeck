@@ -12,6 +12,8 @@ export const CLIENT_QUERY = { dock: "streamdeck" };
 export const STATE_EVENT = "streamdeck-state";
 /** Plugin → app, with ack: start the widget's primary action, or stop it while running. */
 export const TOGGLE_EVENT = "streamdeck:toggle";
+/** Connection error while Stream Deck is switched off in PixelyChat (Setup → Integrations). */
+export const DISABLED_ERROR = "streamdeck-disabled";
 
 /**
  * A running timer as fixed timestamps (same clock: both run on this machine).

@@ -2,6 +2,7 @@
     "name": "pixelychat-streamdeck",
     "private": true,
     "description": "PixelyChat plugin for Elgato Stream Deck",
+    "license": "MIT",
     "scripts": {
         "build": "rollup -c",
         "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.pixelychat.streamdeck\"",
