@@ -31,8 +31,8 @@ bot and more. No ads, no subscription.
 
 ## Get started
 
-1. Install [PixelyChat](https://pixelychat.com) and the PixelyChat plugin from the
-   Elgato Marketplace.<!-- Link the Marketplace listing here once it is approved. -->
+1. Install [PixelyChat](https://pixelychat.com) and the
+   [PixelyChat plugin from the Elgato Marketplace](https://marketplace.elgato.com/product/pixelychat-3e71df98-d475-45aa-9140-4e2c3a61c051).
 2. In PixelyChat, open **Setup → Integrations → Stream Deck** and turn on
    **Enable Stream Deck**.
 3. In the Stream Deck app, drag **PixelyChat → Trigger Action Widget** onto a key
