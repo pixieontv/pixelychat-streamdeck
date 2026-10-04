@@ -1,11 +1,22 @@
 {
-	"Name": "PixelyChat",
-	"Description": "Löse deine PixelyChat Action Widgets mit Stream-Deck-Tasten aus.",
-	"com.pixelychat.streamdeck.trigger-action-widget": {
-		"Name": "Action Widget auslösen",
-		"Tooltip": "Startet oder stoppt eines deiner PixelyChat Action Widgets."
-	},
-	"Localization": {
-		"off": "aus"
-	}
+    "Name": "PixelyChat",
+    "Description": "Löse deine PixelyChat Action Widgets mit Stream-Deck-Tasten aus.",
+    "com.pixelychat.streamdeck.trigger-action-widget": {
+        "Name": "Action Widget auslösen",
+        "Tooltip": "Startet oder stoppt eines deiner PixelyChat Action Widgets."
+    },
+    "Localization": {
+        "off": "aus",
+        "template": "Vorlage",
+        "missingTemplate": "Die ausgewählte Vorlage existiert nicht mehr. Wähle eine andere Vorlage.",
+        "hintAppUpdate": "Aktualisiere PixelyChat, um Vorlagen mit dieser Taste zu verwenden.",
+        "hintActionFailed": "Die Aktion konnte nicht bestätigt werden. Prüfe PixelyChat, bevor du es erneut versuchst.",
+        "starting": "Startet…",
+        "stopping": "Stoppt…",
+        "pollActive": "Umfrage aktiv",
+        "wheelActive": "Rad aktiv",
+        "votes": "{count} Stimmen",
+        "hintRunning": "Läuft: {name}. Drücke die Taste zum Stoppen.",
+        "hintPending": "Warte auf PixelyChat: {name}."
+    }
 }

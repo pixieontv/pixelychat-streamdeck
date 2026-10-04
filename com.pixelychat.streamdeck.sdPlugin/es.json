@@ -1,11 +1,22 @@
 {
-	"Name": "PixelyChat",
-	"Description": "Activa tus widgets de acción de PixelyChat con las teclas de Stream Deck.",
-	"com.pixelychat.streamdeck.trigger-action-widget": {
-		"Name": "Activar widget de acción",
-		"Tooltip": "Inicia o detiene uno de tus widgets de acción de PixelyChat."
-	},
-	"Localization": {
-		"off": "desactivado"
-	}
+    "Name": "PixelyChat",
+    "Description": "Activa tus widgets de acción de PixelyChat con las teclas de Stream Deck.",
+    "com.pixelychat.streamdeck.trigger-action-widget": {
+        "Name": "Activar widget de acción",
+        "Tooltip": "Inicia o detiene uno de tus widgets de acción de PixelyChat."
+    },
+    "Localization": {
+        "off": "desactivado",
+        "template": "Plantilla",
+        "missingTemplate": "La plantilla seleccionada ya no existe. Elige otra.",
+        "hintAppUpdate": "Actualiza PixelyChat para usar plantillas con esta tecla.",
+        "hintActionFailed": "No se pudo confirmar la acción. Comprueba PixelyChat antes de reintentarlo.",
+        "starting": "Iniciando…",
+        "stopping": "Deteniendo…",
+        "pollActive": "Encuesta activa",
+        "wheelActive": "Ruleta activa",
+        "votes": "{count} votos",
+        "hintRunning": "En curso: {name}. Pulsa la tecla para detener.",
+        "hintPending": "Esperando a PixelyChat: {name}."
+    }
 }

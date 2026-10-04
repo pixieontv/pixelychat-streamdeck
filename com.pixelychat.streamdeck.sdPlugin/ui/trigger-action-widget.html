@@ -27,6 +27,10 @@
         <sdpi-select setting="widgetId" datasource="getWidgets" hot-reload placeholder="__MSG_selectWidget__"></sdpi-select>
     </sdpi-item>
 
+    <sdpi-item id="templates" label="__MSG_template__" style="display:none">
+        <sdpi-select setting="presetId" datasource="getTemplates" hot-reload></sdpi-select>
+    </sdpi-item>
+
     <sdpi-item>
         <span id="hint"></span>
     </sdpi-item>
@@ -49,10 +53,18 @@
         // The plugin sends { event: "status" } right after each widget list update.
         SDPIComponents.streamDeckClient.sendToPropertyInspector.subscribe(({ payload }) => {
             if (!payload || payload.event !== "status") return;
-            if (payload.connection === "needsUpdate") show("updateNeeded", "warning", "hintUpdate", "warning");
+            document.getElementById("templates").style.display = payload.templates ? "" : "none";
+            if (payload.connection === "connected" && payload.appUpdateNeeded) show("updateNeeded", "warning", "hintAppUpdate", "warning");
+            else if (payload.connection === "connected" && payload.missingTemplate) show("connected", "connected", "missingTemplate", "warning");
+            else if (payload.connection === "connected" && payload.error) { show("connected", "connected", "hintActionFailed", "warning"); hint.textContent = payload.error; }
+            else if (payload.connection === "needsUpdate") show("updateNeeded", "warning", "hintUpdate", "warning");
             else if (payload.connection === "turnedOff") show("turnedOff", "warning", "hintTurnedOff", "");
             else if (payload.connection !== "connected") show("notRunning", "", "hintNotRunning", "");
             else if (payload.missing) show("connected", "connected", "hintMissing", "warning");
+            else if (payload.runningTemplateName) {
+                show("connected", "connected", "hintReady", "");
+                hint.textContent = t(payload.busy ? "hintPending" : "hintRunning").replace("{name}", payload.runningTemplateName);
+            }
             else if (payload.empty) show("connected", "connected", "hintEmpty", "");
             else show("connected", "connected", "hintReady", "");
         });

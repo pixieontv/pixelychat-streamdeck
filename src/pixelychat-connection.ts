@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import streamDeck from "@elgato/streamdeck";
 import { io, type Socket } from "socket.io-client";
 
@@ -13,7 +14,7 @@ import {
 	type ToggleResult,
 } from "./protocol";
 
-const TOGGLE_TIMEOUT_MS = 3000;
+const TOGGLE_TIMEOUT_MS = 10000;
 // Socket.IO does not retry after the server refuses or drops a connection, so
 // check again on our own while Stream Deck is switched off in PixelyChat.
 const TURNED_OFF_RETRY_MS = 15000;
@@ -41,6 +42,7 @@ class PixelyChatConnection {
 		});
 		this.socket.on(STATE_EVENT, (state: StreamDeckState) => {
 			if (!this.state) logger.info(`Connected (protocol ${state.protocolVersion}, ${state.widgets.length} widgets)`);
+			if (this.state?.sessionId === state.sessionId && (this.state?.revision ?? -1) > (state.revision ?? 0)) return;
 			this.state = state;
 			this.turnedOff = false;
 			this.notify();
@@ -84,6 +86,8 @@ class PixelyChatConnection {
 		return !!this.state && this.state.protocolVersion > SUPPORTED_PROTOCOL_VERSION;
 	}
 
+	get supportsTemplates(): boolean { return !!this.state?.capabilities?.templates; }
+
 	get widgets(): StreamDeckWidget[] {
 		return this.ready ? this.state!.widgets : [];
 	}
@@ -96,12 +100,22 @@ class PixelyChatConnection {
 		this.listeners.add(listener);
 	}
 
-	async toggle(widgetId: string): Promise<ToggleResult> {
+	async toggle(widgetId: string, presetId?: string): Promise<ToggleResult> {
 		// Socket.IO buffers emits made while disconnected and sends them after
 		// reconnecting. A key press must never fire later, so only send now.
 		if (!this.ready) return { ok: false, errorCode: "notConnected" };
 		try {
-			return await this.socket!.timeout(TOGGLE_TIMEOUT_MS).emitWithAck(TOGGLE_EVENT, { widgetId });
+			if (presetId && !this.supportsTemplates) return { ok: false, errorCode: "appUpdateNeeded" };
+			const widget = this.find(widgetId);
+			const enhanced = !!widget?.templates || !!presetId;
+			if (enhanced && widget?.busy) return { ok: false, errorCode: "stateChanged" };
+			return await this.socket!.timeout(TOGGLE_TIMEOUT_MS).emitWithAck(TOGGLE_EVENT, {
+				widgetId, ...(presetId ? { presetId } : {}),
+				...(enhanced && this.state?.capabilities?.guardedActions ? {
+					action: widget?.active ? "stop" : "play", runId: widget?.runId ?? null,
+					sessionId: this.state.sessionId, requestId: randomUUID(),
+				} : {}),
+			});
 		} catch {
 			// No reply: the press may or may not have run in PixelyChat. Never resend it.
 			return { ok: false, errorCode: "timeout" };

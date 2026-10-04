@@ -1,5 +1,4 @@
-// Settings-panel strings, per Stream Deck language (sdpi-components i18n).
-// Keep in step with the plugin's <lang>.json files next to manifest.json.
+// Settings-panel strings, per Stream Deck language.
 SDPIComponents.i18n.locales = {
 	"en": {
 		"actionWidget": "Action Widget",
@@ -15,7 +14,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "No Action Widgets available. Create or turn one on in PixelyChat under Scene → Widgets, then come back here.",
 		"hintReady": "Press the key to start the widget, and again to stop it. It uses the current settings from PixelyChat.",
 		"turnedOff": "○ Turned off",
-		"hintTurnedOff": "Stream Deck is turned off in PixelyChat. Turn it on under Setup → Integrations → Stream Deck."
+		"hintTurnedOff": "Stream Deck is turned off in PixelyChat. Turn it on under Setup → Integrations → Stream Deck.",
+		"template": "Template",
+		"missingTemplate": "The selected template no longer exists. Choose another template.",
+		"hintAppUpdate": "Update PixelyChat to use templates with this key.",
+		"hintActionFailed": "The action could not be confirmed. Check PixelyChat before trying again.",
+		"starting": "Starting…",
+		"stopping": "Stopping…",
+		"pollActive": "Poll active",
+		"wheelActive": "Wheel active",
+		"votes": "{count} votes",
+		"hintRunning": "Running: {name}. Press the key to stop.",
+		"hintPending": "Waiting for PixelyChat: {name}."
 	},
 	"de": {
 		"actionWidget": "Action Widget",
@@ -31,7 +41,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "Keine Action Widgets verfügbar. Erstelle oder aktiviere eines in PixelyChat unter Szene → Widgets und komm dann hierher zurück.",
 		"hintReady": "Drücke die Taste, um das Widget zu starten, und erneut, um es zu stoppen. Es nutzt die aktuellen Einstellungen aus PixelyChat.",
 		"turnedOff": "○ Ausgeschaltet",
-		"hintTurnedOff": "Stream Deck ist in PixelyChat ausgeschaltet. Schalte es unter Einrichtung → Integrationen → Stream Deck ein."
+		"hintTurnedOff": "Stream Deck ist in PixelyChat ausgeschaltet. Schalte es unter Einrichtung → Integrationen → Stream Deck ein.",
+		"template": "Vorlage",
+		"missingTemplate": "Die ausgewählte Vorlage existiert nicht mehr. Wähle eine andere Vorlage.",
+		"hintAppUpdate": "Aktualisiere PixelyChat, um Vorlagen mit dieser Taste zu verwenden.",
+		"hintActionFailed": "Die Aktion konnte nicht bestätigt werden. Prüfe PixelyChat, bevor du es erneut versuchst.",
+		"starting": "Startet…",
+		"stopping": "Stoppt…",
+		"pollActive": "Umfrage aktiv",
+		"wheelActive": "Rad aktiv",
+		"votes": "{count} Stimmen",
+		"hintRunning": "Läuft: {name}. Drücke die Taste zum Stoppen.",
+		"hintPending": "Warte auf PixelyChat: {name}."
 	},
 	"es": {
 		"actionWidget": "Widget de acción",
@@ -47,7 +68,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "No hay widgets de acción disponibles. Crea o activa uno en PixelyChat en Escena → Widgets y vuelve aquí.",
 		"hintReady": "Pulsa la tecla para iniciar el widget y otra vez para detenerlo. Usa la configuración actual de PixelyChat.",
 		"turnedOff": "○ Desactivado",
-		"hintTurnedOff": "Stream Deck está desactivado en PixelyChat. Actívalo en Configuración → Integraciones → Stream Deck."
+		"hintTurnedOff": "Stream Deck está desactivado en PixelyChat. Actívalo en Configuración → Integraciones → Stream Deck.",
+		"template": "Plantilla",
+		"missingTemplate": "La plantilla seleccionada ya no existe. Elige otra.",
+		"hintAppUpdate": "Actualiza PixelyChat para usar plantillas con esta tecla.",
+		"hintActionFailed": "No se pudo confirmar la acción. Comprueba PixelyChat antes de reintentarlo.",
+		"starting": "Iniciando…",
+		"stopping": "Deteniendo…",
+		"pollActive": "Encuesta activa",
+		"wheelActive": "Ruleta activa",
+		"votes": "{count} votos",
+		"hintRunning": "En curso: {name}. Pulsa la tecla para detener.",
+		"hintPending": "Esperando a PixelyChat: {name}."
 	},
 	"fr": {
 		"actionWidget": "Widget d’action",
@@ -63,7 +95,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "Aucun widget d’action disponible. Créez-en ou activez-en un dans PixelyChat sous Scène → Widgets, puis revenez ici.",
 		"hintReady": "Appuyez sur la touche pour lancer le widget, puis de nouveau pour l’arrêter. Il utilise les réglages actuels de PixelyChat.",
 		"turnedOff": "○ Désactivé",
-		"hintTurnedOff": "Stream Deck est désactivé dans PixelyChat. Activez-le dans Configuration → Intégrations → Stream Deck."
+		"hintTurnedOff": "Stream Deck est désactivé dans PixelyChat. Activez-le dans Configuration → Intégrations → Stream Deck.",
+		"template": "Modèle",
+		"missingTemplate": "Le modèle sélectionné n’existe plus. Choisissez-en un autre.",
+		"hintAppUpdate": "Mettez à jour PixelyChat pour utiliser les modèles avec cette touche.",
+		"hintActionFailed": "Impossible de confirmer l’action. Vérifiez PixelyChat avant de réessayer.",
+		"starting": "Démarrage…",
+		"stopping": "Arrêt…",
+		"pollActive": "Sondage actif",
+		"wheelActive": "Roue active",
+		"votes": "{count} votes",
+		"hintRunning": "En cours : {name}. Appuyez sur la touche pour arrêter.",
+		"hintPending": "En attente de PixelyChat : {name}."
 	},
 	"ja": {
 		"actionWidget": "アクションウィジェット",
@@ -79,7 +122,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "使用できるアクションウィジェットがありません。PixelyChatのシーン → ウィジェットで作成またはオンにしてから、ここに戻ってください。",
 		"hintReady": "キーを押すとウィジェットが開始し、もう一度押すと停止します。PixelyChatの現在の設定が使われます。",
 		"turnedOff": "○ オフ",
-		"hintTurnedOff": "PixelyChatでStream Deckがオフになっています。セットアップ → 連携 → Stream Deck でオンにしてください。"
+		"hintTurnedOff": "PixelyChatでStream Deckがオフになっています。セットアップ → 連携 → Stream Deck でオンにしてください。",
+		"template": "テンプレート",
+		"missingTemplate": "選択したテンプレートは存在しません。別のテンプレートを選んでください。",
+		"hintAppUpdate": "このキーでテンプレートを使うにはPixelyChatを更新してください。",
+		"hintActionFailed": "操作を確認できませんでした。再試行前にPixelyChatを確認してください。",
+		"starting": "開始中…",
+		"stopping": "停止中…",
+		"pollActive": "投票中",
+		"wheelActive": "ルーレット動作中",
+		"votes": "{count}票",
+		"hintRunning": "実行中：{name}。キーを押すと停止します。",
+		"hintPending": "PixelyChatを待機中：{name}。"
 	},
 	"ko": {
 		"actionWidget": "액션 위젯",
@@ -95,7 +149,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "사용할 수 있는 액션 위젯이 없습니다. PixelyChat의 씬 → 위젯에서 만들거나 켠 다음 여기로 돌아오세요.",
 		"hintReady": "키를 누르면 위젯이 시작되고, 다시 누르면 멈춥니다. PixelyChat의 현재 설정을 사용합니다.",
 		"turnedOff": "○ 꺼짐",
-		"hintTurnedOff": "PixelyChat에서 Stream Deck이 꺼져 있습니다. 설정 → 연동 → Stream Deck에서 켜세요."
+		"hintTurnedOff": "PixelyChat에서 Stream Deck이 꺼져 있습니다. 설정 → 연동 → Stream Deck에서 켜세요.",
+		"template": "템플릿",
+		"missingTemplate": "선택한 템플릿이 없습니다. 다른 템플릿을 선택하세요.",
+		"hintAppUpdate": "이 키에서 템플릿을 사용하려면 PixelyChat을 업데이트하세요.",
+		"hintActionFailed": "작업을 확인할 수 없습니다. 다시 시도하기 전에 PixelyChat을 확인하세요.",
+		"starting": "시작 중…",
+		"stopping": "정지 중…",
+		"pollActive": "투표 진행 중",
+		"wheelActive": "휠 진행 중",
+		"votes": "{count}표",
+		"hintRunning": "진행 중: {name}. 키를 누르면 정지합니다.",
+		"hintPending": "PixelyChat 응답 대기 중: {name}."
 	},
 	"zh_CN": {
 		"actionWidget": "操作小组件",
@@ -111,7 +176,18 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "没有可用的操作小组件。请在 PixelyChat 的 场景 → 组件 中创建或开启一个，然后回到这里。",
 		"hintReady": "按下按键启动小组件，再按一次停止。它使用 PixelyChat 中的当前设置。",
 		"turnedOff": "○ 已关闭",
-		"hintTurnedOff": "PixelyChat 中的 Stream Deck 已关闭。请在 设置 → 集成 → Stream Deck 中开启。"
+		"hintTurnedOff": "PixelyChat 中的 Stream Deck 已关闭。请在 设置 → 集成 → Stream Deck 中开启。",
+		"template": "模板",
+		"missingTemplate": "所选模板已不存在。请选择其他模板。",
+		"hintAppUpdate": "请更新 PixelyChat 以通过此按键使用模板。",
+		"hintActionFailed": "无法确认操作。请先检查 PixelyChat 再重试。",
+		"starting": "启动中…",
+		"stopping": "停止中…",
+		"pollActive": "投票进行中",
+		"wheelActive": "转盘运行中",
+		"votes": "{count} 票",
+		"hintRunning": "正在运行：{name}。按键即可停止。",
+		"hintPending": "等待 PixelyChat：{name}。"
 	},
 	"zh_TW": {
 		"actionWidget": "操作小工具",
@@ -127,6 +203,17 @@ SDPIComponents.i18n.locales = {
 		"hintEmpty": "沒有可用的操作小工具。請在 PixelyChat 的 場景 → 小工具 中建立或開啟一個，然後回到這裡。",
 		"hintReady": "按下按鍵即可啟動小工具，再按一次即可停止。它會使用 PixelyChat 中的目前設定。",
 		"turnedOff": "○ 已關閉",
-		"hintTurnedOff": "PixelyChat 中的 Stream Deck 已關閉。請在 設定 → 整合 → Stream Deck 中開啟。"
+		"hintTurnedOff": "PixelyChat 中的 Stream Deck 已關閉。請在 設定 → 整合 → Stream Deck 中開啟。",
+		"template": "範本",
+		"missingTemplate": "所選範本已不存在。請選擇其他範本。",
+		"hintAppUpdate": "請更新 PixelyChat 以透過此按鍵使用範本。",
+		"hintActionFailed": "無法確認操作。請先檢查 PixelyChat 再重試。",
+		"starting": "啟動中…",
+		"stopping": "停止中…",
+		"pollActive": "投票進行中",
+		"wheelActive": "轉盤執行中",
+		"votes": "{count} 票",
+		"hintRunning": "正在執行：{name}。按鍵即可停止。",
+		"hintPending": "等待 PixelyChat：{name}。"
 	}
 };

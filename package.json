@@ -6,6 +6,7 @@
     "scripts": {
         "build": "rollup -c",
         "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.pixelychat.streamdeck\"",
+        "test": "node src/trigger-action-widget.test.cjs",
         "typecheck": "tsc --noEmit",
         "validate": "streamdeck validate com.pixelychat.streamdeck.sdPlugin",
         "pack": "npm run build && streamdeck pack com.pixelychat.streamdeck.sdPlugin --output dist --force"

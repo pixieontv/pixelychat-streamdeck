@@ -4,7 +4,7 @@
 
 import type { StreamDeckTimer } from "./protocol";
 
-export type KeyStatus = "idle" | "active" | "disabled" | "missing" | "offline";
+export type KeyStatus = "idle" | "active" | "disabled" | "missing" | "offline" | "pending";
 
 const TIMER = '<line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/>';
 const TIMER_RESET = '<path d="M10 2h4"/><path d="M12 14v-4"/><path d="M4 13a8 8 0 0 1 8-7 8 8 0 1 1-5.3 14L4 17.6"/><path d="M9 17H4v5"/>';
@@ -19,6 +19,7 @@ const SPARKLES = '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 
 // Mirrors pixelychat-app src/renderer/components/ActionWidgetIcon.tsx.
 // Unknown (newer) widget types fall back to Sparkles, like the app does.
 const ICONS: Record<string, string> = {
+	poll: '<path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/>',
 	countdown: TIMER,
 	stopwatch: TIMER_RESET,
 	"spin-wheel": APERTURE,
@@ -42,6 +43,7 @@ const COLORS = {
 };
 
 const ICON_COLOR: Record<KeyStatus, string> = {
+	pending: COLORS.warning,
 	idle: COLORS.text,
 	active: COLORS.brandPink,
 	disabled: COLORS.faint,
@@ -50,6 +52,7 @@ const ICON_COLOR: Record<KeyStatus, string> = {
 };
 
 const DOT_COLOR: Partial<Record<KeyStatus, string>> = {
+	pending: COLORS.warning,
 	missing: COLORS.warning,
 	offline: COLORS.offline,
 };
@@ -117,7 +120,7 @@ function truncate(text: string, width: number, fontSize: number): string {
 	return `${chars.join("").trimEnd()}…`;
 }
 
-const TEXT_WIDTH = 118; // inside the ring (its inner edge is at 11..133)
+const TEXT_WIDTH = 118; // Leave space between text and the key border.
 const FONT = 'font-family="Helvetica, Arial, sans-serif" font-weight="700" text-anchor="middle"';
 
 /** The name as one line, else two lines, shrunk to fit; truncated only as a last resort. */
@@ -136,7 +139,7 @@ function nameLines(name: string): { lines: string[]; fontSize: number } {
  * below it. `name` is omitted when the user typed their own title in Stream
  * Deck, which Stream Deck then draws itself.
  */
-export function keyImage(type: string | undefined, status: KeyStatus, options: { timer?: string; name?: string } = {}): string {
+export function keyImage(type: string | undefined, status: KeyStatus, options: { timer?: string; name?: string; detail?: string; secondary?: string } = {}): string {
 	const icon = (type && ICONS[type]) || SPARKLES;
 	const dot = DOT_COLOR[status];
 	const name = options.name?.trim() ? nameLines(options.name.trim()) : undefined;
@@ -144,11 +147,15 @@ export function keyImage(type: string | undefined, status: KeyStatus, options: {
 	// Vertical layout: the top block (icon or time) is centered in the space above the name.
 	const lineHeight = name ? name.fontSize * 1.15 : 0;
 	const nameTop = name ? 124 - lineHeight * name.lines.length : 144;
-	const blockCenter = name ? (16 + nameTop) / 2 + 2 : 72;
+	const blockCenter = (name ? (16 + nameTop) / 2 + 2 : 72) - (options.secondary ? 7 : 0);
 	const iconSize = name ? (name.lines.length > 1 ? 40 : 46) : 58;
 
 	let block: string;
-	if (options.timer) {
+	if (options.detail) {
+		const detail = nameLines(options.detail.trim());
+		const fontSize = Math.min(detail.fontSize, 20);
+		block = detail.lines.map((line, i) => `<text x="72" y="${blockCenter + (i - (detail.lines.length - 1) / 2) * fontSize * 1.15 + fontSize * .35}" ${FONT} font-size="${fontSize}" fill="${COLORS.text}">${escapeXml(line)}</text>`).join("");
+	} else if (options.timer) {
 		const maxSize = name ? (name.lines.length > 1 ? 34 : 40) : 50;
 		const size = fitSize(options.timer, TEXT_WIDTH, maxSize, 16) ?? 16;
 		block = `<text x="72" y="${(blockCenter + size * 0.36).toFixed(1)}" ${FONT} font-size="${size}" fill="${COLORS.text}">${options.timer}</text>`;
@@ -168,11 +175,12 @@ export function keyImage(type: string | undefined, status: KeyStatus, options: {
 		`<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${COLORS.bgTop}"/><stop offset="1" stop-color="${COLORS.bgBottom}"/></linearGradient>`,
 		`<linearGradient id="brand" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${COLORS.brandPink}"/><stop offset="1" stop-color="${COLORS.brandViolet}"/></linearGradient>`,
 		"</defs>",
-		'<rect width="144" height="144" fill="url(#bg)"/>',
-		// Inset so the phone app's rounded key corners never clip it.
-		status === "active" ? '<rect x="8" y="8" width="128" height="128" rx="26" fill="none" stroke="url(#brand)" stroke-width="6"/>' : "",
+		// Paint to the key edges; Stream Deck applies the hardware's corner mask.
+		`<rect width="144" height="144" fill="url(#${status === "active" ? "brand" : "bg"})"/>`,
+		status === "active" ? '<rect x="4" y="4" width="136" height="136" rx="8" fill="url(#bg)"/>' : "",
 		block,
 		nameText,
+		options.secondary ? `<text x="72" y="${nameTop - 5}" ${FONT} font-size="12" fill="${COLORS.text}">${escapeXml(options.secondary)}</text>` : "",
 		dot ? `<circle cx="116" cy="28" r="8" fill="${dot}"/>` : "",
 		"</svg>",
 	].join("");

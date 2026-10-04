@@ -1,11 +1,22 @@
 {
-	"Name": "PixelyChat",
-	"Description": "Trigger your PixelyChat Action Widgets from Stream Deck keys.",
-	"com.pixelychat.streamdeck.trigger-action-widget": {
-		"Name": "Trigger Action Widget",
-		"Tooltip": "Starts or stops one of your PixelyChat Action Widgets."
-	},
-	"Localization": {
-		"off": "off"
-	}
+    "Name": "PixelyChat",
+    "Description": "Trigger your PixelyChat Action Widgets from Stream Deck keys.",
+    "com.pixelychat.streamdeck.trigger-action-widget": {
+        "Name": "Trigger Action Widget",
+        "Tooltip": "Starts or stops one of your PixelyChat Action Widgets."
+    },
+    "Localization": {
+        "off": "off",
+        "template": "Template",
+        "missingTemplate": "The selected template no longer exists. Choose another template.",
+        "hintAppUpdate": "Update PixelyChat to use templates with this key.",
+        "hintActionFailed": "The action could not be confirmed. Check PixelyChat before trying again.",
+        "starting": "Starting…",
+        "stopping": "Stopping…",
+        "pollActive": "Poll active",
+        "wheelActive": "Wheel active",
+        "votes": "{count} votes",
+        "hintRunning": "Running: {name}. Press the key to stop.",
+        "hintPending": "Waiting for PixelyChat: {name}."
+    }
 }

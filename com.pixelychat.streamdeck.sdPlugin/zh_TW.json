@@ -1,11 +1,22 @@
 {
-	"Name": "PixelyChat",
-	"Description": "用 Stream Deck 按鍵觸發 PixelyChat 操作小工具。",
-	"com.pixelychat.streamdeck.trigger-action-widget": {
-		"Name": "觸發操作小工具",
-		"Tooltip": "啟動或停止你的某個 PixelyChat 操作小工具。"
-	},
-	"Localization": {
-		"off": "已關閉"
-	}
+    "Name": "PixelyChat",
+    "Description": "用 Stream Deck 按鍵觸發 PixelyChat 操作小工具。",
+    "com.pixelychat.streamdeck.trigger-action-widget": {
+        "Name": "觸發操作小工具",
+        "Tooltip": "啟動或停止你的某個 PixelyChat 操作小工具。"
+    },
+    "Localization": {
+        "off": "已關閉",
+        "template": "範本",
+        "missingTemplate": "所選範本已不存在。請選擇其他範本。",
+        "hintAppUpdate": "請更新 PixelyChat 以透過此按鍵使用範本。",
+        "hintActionFailed": "無法確認操作。請先檢查 PixelyChat 再重試。",
+        "starting": "啟動中…",
+        "stopping": "停止中…",
+        "pollActive": "投票進行中",
+        "wheelActive": "轉盤執行中",
+        "votes": "{count} 票",
+        "hintRunning": "正在執行：{name}。按鍵即可停止。",
+        "hintPending": "等待 PixelyChat：{name}。"
+    }
 }

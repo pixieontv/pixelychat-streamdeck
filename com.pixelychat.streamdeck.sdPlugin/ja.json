@@ -1,11 +1,22 @@
 {
-	"Name": "PixelyChat",
-	"Description": "Stream DeckのキーからPixelyChatのアクションウィジェットを実行します。",
-	"com.pixelychat.streamdeck.trigger-action-widget": {
-		"Name": "アクションウィジェットを実行",
-		"Tooltip": "PixelyChatのアクションウィジェットを開始または停止します。"
-	},
-	"Localization": {
-		"off": "オフ"
-	}
+    "Name": "PixelyChat",
+    "Description": "Stream DeckのキーからPixelyChatのアクションウィジェットを実行します。",
+    "com.pixelychat.streamdeck.trigger-action-widget": {
+        "Name": "アクションウィジェットを実行",
+        "Tooltip": "PixelyChatのアクションウィジェットを開始または停止します。"
+    },
+    "Localization": {
+        "off": "オフ",
+        "template": "テンプレート",
+        "missingTemplate": "選択したテンプレートは存在しません。別のテンプレートを選んでください。",
+        "hintAppUpdate": "このキーでテンプレートを使うにはPixelyChatを更新してください。",
+        "hintActionFailed": "操作を確認できませんでした。再試行前にPixelyChatを確認してください。",
+        "starting": "開始中…",
+        "stopping": "停止中…",
+        "pollActive": "投票中",
+        "wheelActive": "ルーレット動作中",
+        "votes": "{count}票",
+        "hintRunning": "実行中：{name}。キーを押すと停止します。",
+        "hintPending": "PixelyChatを待機中：{name}。"
+    }
 }

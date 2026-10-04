@@ -30,14 +30,30 @@ export interface StreamDeckWidget {
 	enabled: boolean;
 	active: boolean;
 	timer?: StreamDeckTimer;
+	legacy?: boolean;
+	busy?: boolean;
+	status?: string;
+	voteCount?: number;
+	canStop?: boolean;
+	runId?: string;
+	templates?: { id: string; name: string }[];
+	defaultTemplateId?: string;
+	runningTemplateId?: string;
+	result?: string;
+	resultTemplateId?: string;
+	issue?: string;
 }
 
 export interface StreamDeckState {
 	protocolVersion: number;
+	sessionId?: string;
+	revision?: number;
+	capabilities?: { templates?: boolean; guardedActions?: boolean };
 	widgets: StreamDeckWidget[];
 }
 
 export interface ToggleResult {
 	ok: boolean;
 	errorCode?: string;
+	error?: string;
 }
