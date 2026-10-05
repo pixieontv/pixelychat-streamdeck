@@ -59,5 +59,15 @@ const Action=load('actions/trigger-action-widget.ts',{
  settings={widgetId:'old',custom:'preserved'};await action.onDidReceiveSettings({action:key,payload:{settings}});assert(inspector.filter(p=>p.event==='getWidgets').at(-1).items.some(i=>i.value==='old'));assert.equal(settings.presetId,undefined);assert.equal(settings.custom,'preserved');
  const xml=Buffer.from(artwork.keyImage('poll','active',{name:'<unsafe>',detail:'A & B'}).split(',')[1],'base64').toString();assert(xml.includes('&lt;unsafe&gt;'));assert(xml.includes('A &amp; B'));assert(!xml.includes('<unsafe>'));
  assert(xml.includes('<rect width="144" height="144" fill="url(#brand)"/>'));assert(xml.includes('x="4" y="4" width="136" height="136"'));assert(!xml.includes('x="111"'));
- console.log('PASS: v1 legacy payload, capability gating, explicit template/run guards, stale snapshots, no replay, template persistence, missing bindings, shared Stop, own results only, pending state, custom titles, regular-widget switching, legacy selection, SVG escaping');
+ settings={widgetId:'wheel',presetId:'a'};state([{...wheel}],{...enhanced,revision:7});
+ const ack=socket.emitWithAck;socket.emitWithAck=async(event,payload)=>{sent.push({event,payload});return {ok:false,error:'Already running'};};
+ await action.onKeyDown({action:key,payload:{settings}});socket.emitWithAck=ack;
+ const lastStatus=()=>inspector.filter(p=>p.event==='status').at(-1);
+ assert.equal(lastStatus().error,'Already running');
+ state([{...wheel}],{...enhanced,revision:8});await new Promise(r=>setTimeout(r,10));assert.equal(lastStatus().error,'Already running','unrelated updates keep the press error');
+ state([{...wheel,active:true,runId:'r9',runningTemplateId:'a',queued:2,stopAdvancesQueue:true}],{...enhanced,revision:9});await new Promise(r=>setTimeout(r,10));
+ assert.equal(lastStatus().error,undefined,'a press error clears once the widget run changes');
+ assert.equal(lastStatus().queued,2);assert.equal(lastStatus().stopAdvancesQueue,true);
+ state([{...wheel}],{...enhanced,revision:10});await new Promise(r=>setTimeout(r,10));assert.equal(lastStatus().queued,undefined,'queue line only while running');
+ console.log('PASS: v1 legacy payload, capability gating, explicit template/run guards, stale snapshots, no replay, template persistence, missing bindings, shared Stop, own results only, pending state, custom titles, regular-widget switching, legacy selection, SVG escaping, press errors clear on run change, queue meaning in the Property Inspector');
 })().catch(error=>{console.error(error);process.exitCode=1});

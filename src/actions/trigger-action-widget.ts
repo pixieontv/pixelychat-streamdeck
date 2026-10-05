@@ -12,6 +12,7 @@ import streamDeck, {
 
 import { keyImage, timerText, type KeyStatus } from "../key-image";
 import { pixelyChat } from "../pixelychat-connection";
+import type { StreamDeckWidget } from "../protocol";
 
 /**
  * A key bound to one PixelyChat Action Widget. Only the widget's stable id is
@@ -27,6 +28,11 @@ type Settings = {
 	cachedTemplateName?: string;
 };
 
+/** Identifies one run of a widget, so a key's error can be dropped when that run is over. */
+function runKey(widget: StreamDeckWidget): string {
+	return `${widget.active}:${widget.runId ?? ""}`;
+}
+
 @action({ UUID: "com.pixelychat.streamdeck.trigger-action-widget" })
 export class TriggerActionWidget extends SingletonAction<Settings> {
 	/** What each key last showed, so an unchanged image is not resent (the timer tick redraws often). */
@@ -40,7 +46,8 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 	 */
 	private readonly titles = new Map<string, { title: string; shownByStreamDeck: boolean }>();
 	private readonly pending = new Set<string>();
-	private readonly errors = new Map<string, string>();
+	/** A failed press's message per key, with the widget's run at that time: it clears once that run changes. */
+	private readonly errors = new Map<string, { text: string; run: string }>();
 	private ticker: NodeJS.Timeout | undefined;
 
 	constructor() {
@@ -92,7 +99,7 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 		}
 		const presetId = widget.templates ? ev.payload.settings.presetId ?? widget.defaultTemplateId : ev.payload.settings.presetId;
 		if (!widget.active && presetId && widget.templates && !widget.templates.some(t => t.id === presetId)) {
-			this.errors.set(ev.action.id, streamDeck.i18n.translate("missingTemplate"));
+			this.errors.set(ev.action.id, { text: streamDeck.i18n.translate("missingTemplate"), run: runKey(widget) });
 			await ev.action.showAlert(); await this.updatePropertyInspector(ev.payload.settings); return;
 		}
 		this.pending.add(ev.action.id); this.errors.delete(ev.action.id);
@@ -100,7 +107,7 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 		this.pending.delete(ev.action.id);
 		if (!result.ok) {
 			streamDeck.logger.warn(`Trigger failed for ${widget.id}: ${result.errorCode ?? "unknown"}`);
-			this.errors.set(ev.action.id, result.error || streamDeck.i18n.translate(result.errorCode === "appUpdateNeeded" ? "hintAppUpdate" : "hintActionFailed"));
+			this.errors.set(ev.action.id, { text: result.error || streamDeck.i18n.translate(result.errorCode === "appUpdateNeeded" ? "hintAppUpdate" : "hintActionFailed"), run: runKey(widget) });
 			await ev.action.showAlert();
 		}
 		await this.updatePropertyInspector(ev.payload.settings);
@@ -176,6 +183,10 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 			],
 		});
 		const widget = settings.widgetId ? pixelyChat.find(settings.widgetId) : undefined;
+		const keyId = streamDeck.ui.action?.id ?? "";
+		const stored = this.errors.get(keyId);
+		// Started or stopped since that press (from anywhere): the old message no longer applies.
+		if (stored && (!widget || stored.run !== runKey(widget))) this.errors.delete(keyId);
 		const templates = widget?.templates ?? [];
 		const presetId = settings.presetId ?? widget?.defaultTemplateId;
 		const missingTemplate = !!presetId && !!widget?.templates && !templates.some(t => t.id === presetId);
@@ -190,7 +201,9 @@ export class TriggerActionWidget extends SingletonAction<Settings> {
 			missingTemplate,
 			runningTemplateName: widget?.active ? templates.find(t => t.id === widget.runningTemplateId)?.name : undefined,
 			busy: widget?.busy,
-			error: this.errors.get(streamDeck.ui.action?.id ?? '') || widget?.issue,
+			error: this.errors.get(keyId)?.text || widget?.issue,
+			queued: widget?.active ? widget.queued : undefined,
+			stopAdvancesQueue: widget?.stopAdvancesQueue,
 			connection: pixelyChat.ready ? "connected" : pixelyChat.needsUpdate ? "needsUpdate" : pixelyChat.isTurnedOff ? "turnedOff" : "notRunning",
 			empty: pixelyChat.ready && !widgets.some((widget) => widget.enabled),
 			missing: pixelyChat.ready && !!settings.widgetId && !pixelyChat.find(settings.widgetId),

@@ -42,6 +42,10 @@ export interface StreamDeckWidget {
 	result?: string;
 	resultTemplateId?: string;
 	issue?: string;
+	/** Spins waiting after the current one. */
+	queued?: number;
+	/** Stop finishes this spin and starts the next queued one (wheel in "Until stopped"); otherwise Stop clears the queue. */
+	stopAdvancesQueue?: boolean;
 }
 
 export interface StreamDeckState {

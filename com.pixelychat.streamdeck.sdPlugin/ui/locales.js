@@ -25,7 +25,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "Wheel active",
 		"votes": "{count} votes",
 		"hintRunning": "Running: {name}. Press the key to stop.",
-		"hintPending": "Waiting for PixelyChat: {name}."
+		"hintPending": "Waiting for PixelyChat: {name}.",
+		"hintQueuedContinue": "{count} queued. Stopping starts the next spin.",
+		"hintQueuedClears": "{count} queued. Stopping also clears the queue."
 	},
 	"de": {
 		"actionWidget": "Action Widget",
@@ -52,7 +54,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "Rad aktiv",
 		"votes": "{count} Stimmen",
 		"hintRunning": "Läuft: {name}. Drücke die Taste zum Stoppen.",
-		"hintPending": "Warte auf PixelyChat: {name}."
+		"hintPending": "Warte auf PixelyChat: {name}.",
+		"hintQueuedContinue": "{count} in der Warteschlange. Stoppen startet die nächste Drehung.",
+		"hintQueuedClears": "{count} in der Warteschlange. Stoppen leert auch die Warteschlange."
 	},
 	"es": {
 		"actionWidget": "Widget de acción",
@@ -79,7 +83,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "Ruleta activa",
 		"votes": "{count} votos",
 		"hintRunning": "En curso: {name}. Pulsa la tecla para detener.",
-		"hintPending": "Esperando a PixelyChat: {name}."
+		"hintPending": "Esperando a PixelyChat: {name}.",
+		"hintQueuedContinue": "{count} en cola. Detener inicia el siguiente giro.",
+		"hintQueuedClears": "{count} en cola. Detener también vacía la cola."
 	},
 	"fr": {
 		"actionWidget": "Widget d’action",
@@ -106,7 +112,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "Roue active",
 		"votes": "{count} votes",
 		"hintRunning": "En cours : {name}. Appuyez sur la touche pour arrêter.",
-		"hintPending": "En attente de PixelyChat : {name}."
+		"hintPending": "En attente de PixelyChat : {name}.",
+		"hintQueuedContinue": "{count} en file d’attente. Arrêter lance le tour suivant.",
+		"hintQueuedClears": "{count} en file d’attente. Arrêter vide aussi la file d’attente."
 	},
 	"ja": {
 		"actionWidget": "アクションウィジェット",
@@ -133,7 +141,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "ルーレット動作中",
 		"votes": "{count}票",
 		"hintRunning": "実行中：{name}。キーを押すと停止します。",
-		"hintPending": "PixelyChatを待機中：{name}。"
+		"hintPending": "PixelyChatを待機中：{name}。",
+		"hintQueuedContinue": "{count}件待機中。停止すると次の回転が始まります。",
+		"hintQueuedClears": "{count}件待機中。停止すると待機中のものも消去されます。"
 	},
 	"ko": {
 		"actionWidget": "액션 위젯",
@@ -160,7 +170,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "휠 진행 중",
 		"votes": "{count}표",
 		"hintRunning": "진행 중: {name}. 키를 누르면 정지합니다.",
-		"hintPending": "PixelyChat 응답 대기 중: {name}."
+		"hintPending": "PixelyChat 응답 대기 중: {name}.",
+		"hintQueuedContinue": "{count}개 대기 중. 중지하면 다음 회전이 시작됩니다.",
+		"hintQueuedClears": "{count}개 대기 중. 중지하면 대기열도 비워집니다."
 	},
 	"zh_CN": {
 		"actionWidget": "操作小组件",
@@ -187,7 +199,9 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "转盘运行中",
 		"votes": "{count} 票",
 		"hintRunning": "正在运行：{name}。按键即可停止。",
-		"hintPending": "等待 PixelyChat：{name}。"
+		"hintPending": "等待 PixelyChat：{name}。",
+		"hintQueuedContinue": "{count} 个排队中。停止后将开始下一次转动。",
+		"hintQueuedClears": "{count} 个排队中。停止会同时清空队列。"
 	},
 	"zh_TW": {
 		"actionWidget": "操作小工具",
@@ -214,6 +228,8 @@ SDPIComponents.i18n.locales = {
 		"wheelActive": "轉盤執行中",
 		"votes": "{count} 票",
 		"hintRunning": "正在執行：{name}。按鍵即可停止。",
-		"hintPending": "等待 PixelyChat：{name}。"
+		"hintPending": "等待 PixelyChat：{name}。",
+		"hintQueuedContinue": "{count} 個排隊中。停止後將開始下一次轉動。",
+		"hintQueuedClears": "{count} 個排隊中。停止會同時清空佇列。"
 	}
 };

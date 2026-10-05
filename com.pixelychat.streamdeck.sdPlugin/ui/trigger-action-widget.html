@@ -64,6 +64,7 @@
             else if (payload.runningTemplateName) {
                 show("connected", "connected", "hintReady", "");
                 hint.textContent = t(payload.busy ? "hintPending" : "hintRunning").replace("{name}", payload.runningTemplateName);
+                if (payload.queued && !payload.busy) hint.textContent += " " + t(payload.stopAdvancesQueue ? "hintQueuedContinue" : "hintQueuedClears").replace("{count}", payload.queued);
             }
             else if (payload.empty) show("connected", "connected", "hintEmpty", "");
             else show("connected", "connected", "hintReady", "");
